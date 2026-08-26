@@ -12,6 +12,7 @@ import {
 import Header from '../components/Header';
 import PokemonCard from '../components/PokemonCard';
 import { Ionicons } from '@expo/vector-icons';
+import { useDrawer } from '../navigation/DrawerNavigator';
 
 export default function HomeScreen({ navigation }) {
   const [pokemonList, setPokemonList] = useState([]);
@@ -19,6 +20,15 @@ export default function HomeScreen({ navigation }) {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [favorites, setFavorites] = useState({});
+  const drawer = useDrawer();
+
+  const handleOpenDrawer = () => {
+    if (drawer && drawer.openDrawer) {
+      drawer.openDrawer();
+    } else if (navigation && navigation.openDrawer) {
+      navigation.openDrawer();
+    }
+  };
 
   const fetchPokemon = async () => {
     try {
@@ -75,7 +85,7 @@ export default function HomeScreen({ navigation }) {
         <Header
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          onOpenDrawer={() => navigation.openDrawer && navigation.openDrawer()}
+          onOpenDrawer={handleOpenDrawer}
         />
 
         <View style={styles.body}>
